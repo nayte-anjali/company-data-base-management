@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leave Management - Company</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div style="background: #333; color: white; padding: 15px; text-align: right;">
+        <a href="/" style="color: white; margin-left: 10px; text-decoration: none;">Dashboard</a> |
+        <a href="/logout" style="color: white; margin-left: 10px; text-decoration: none;">Logout</a>
+    </div>
+
+    <div class="container">
+        <h1>Leave Management System</h1>
+
+        <div class="card" style="background: #f9fbfd;">
+            <h2>Apply for Leave</h2>
+            <form action="/apply_leave" method="POST" class="form-grid">
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <select name="emp_id" required style="flex: 1; padding: 8px;">
+                        <option value="">Select Employee</option>
+                        {% for emp in employees %}
+                        <option value="{{ emp.emp_id }}">{{ emp.emp_id }} - {{ emp.emp_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="date" name="start_date" required style="flex: 1;" title="Start Date">
+                    <input type="date" name="end_date" required style="flex: 1;" title="End Date">
+                </div>
+                <input type="text" name="reason" placeholder="Brief Reason for Leave" required style="margin-top: 10px; width: 100%;">
+                <button type="submit" style="margin-top: 15px; background: #2196F3;">Submit Request</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Leave Requests Log</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Leave ID</th>
+                        <th>Employee</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for leave in leaves %}
+                    <tr>
+                        <td>#{{ leave.leave_id }}</td>
+                        <td>{{ leave.emp_name }} ({{ leave.emp_id }})</td>
+                        <td>{{ leave.start_date }}</td>
+                        <td>{{ leave.end_date }}</td>
+                        <td style="max-width: 200px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" title="{{ leave.reason }}">{{ leave.reason }}</td>
+                        <td>
+                            {% if leave.status == 'Pending' %}
+                                <span style="background: #ff9800; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Pending</span>
+                            {% elif leave.status == 'Approved' %}
+                                <span style="background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Approved</span>
+                            {% else %}
+                                <span style="background: #f44336; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Rejected</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if leave.status == 'Pending' %}
+                            <a href="/update_leave/{{ leave.leave_id }}/Approved" style="color: #4CAF50; margin-right: 10px; text-decoration: none; font-weight: bold;">✓ Approve</a>
+                            <a href="/update_leave/{{ leave.leave_id }}/Rejected" style="color: #f44336; text-decoration: none; font-weight: bold;">✕ Reject</a>
+                            {% else %}
+                            <span style="color: #aaa; font-size: 12px;">Processed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if not leaves %}
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 20px;">No leave requests found.</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

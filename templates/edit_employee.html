@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Employee - Company Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div style="background: #333; color: white; padding: 15px; text-align: right;">
+        <a href="/" style="color: white; margin-left: 10px; text-decoration: none;">Dashboard</a> |
+        <a href="/logout" style="color: white; margin-left: 10px; text-decoration: none;">Logout</a>
+    </div>
+
+    <div class="container">
+        <div class="card" style="max-width: 600px; margin: 0 auto;">
+            <h2>Edit Employee: {{ emp.emp_name }}</h2>
+            <form action="/edit_employee/{{ emp.emp_id }}" method="POST" class="form-grid">
+                <label style="font-size: 14px; color: #555;">Name:</label>
+                <input type="text" name="emp_name" value="{{ emp.emp_name }}" required>
+                
+                <label style="font-size: 14px; color: #555;">Age:</label>
+                <input type="number" name="age" value="{{ emp.age }}" required>
+                
+                <label style="font-size: 14px; color: #555;">City:</label>
+                <input type="text" name="city" value="{{ emp.city }}" required>
+                
+                <label style="font-size: 14px; color: #555;">Dept ID:</label>
+                <input type="number" name="dept_id" value="{{ emp.dept_id }}" required>
+                
+                <label style="font-size: 14px; color: #555;">Salary:</label>
+                <input type="number" name="salary" value="{{ emp.salary }}" required>
+                
+                <label style="font-size: 14px; color: #555;">Hire Date:</label>
+                <input type="date" name="hire_date" value="{{ emp.hire_date }}" required>
+                
+                <label style="font-size: 14px; color: #555;">Gender:</label>
+                <select name="gender" required style="padding: 8px;">
+                    <option value="M" {% if emp.gender == 'M' %}selected{% endif %}>Male</option>
+                    <option value="F" {% if emp.gender == 'F' %}selected{% endif %}>Female</option>
+                    <option value="Other" {% if emp.gender == 'Other' %}selected{% endif %}>Other</option>
+                </select>
+                
+                <button type="submit" style="margin-top: 15px; width: 100%;">Update Employee</button>
+                <a href="/" style="display: block; text-align: center; margin-top: 15px; color: #666; text-decoration: none;">Cancel</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

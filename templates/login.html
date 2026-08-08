@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Company Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Company Management System</h1>
+        <div class="card" style="max-width: 400px; margin: 0 auto;">
+            <h2>Admin Login</h2>
+            {% if error %}
+            <p style="color: red;">{{ error }}</p>
+            {% endif %}
+            <form action="/login" method="POST" class="form-grid">
+                <input type="text" name="username" placeholder="Username (admin)" required>
+                <input type="password" name="password" placeholder="Password (admin123)" required>
+                <button type="submit" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

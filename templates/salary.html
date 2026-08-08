@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Salary Slip - Company Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .salary-box { border: 2px solid #ddd; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .row { display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding: 12px 0; }
+        .row:last-child { border-bottom: none; }
+        .total-row { font-weight: bold; border-top: 2px solid #333; margin-top: 15px; padding-top: 15px; }
+    </style>
+</head>
+<body>
+    <div style="background: #333; color: white; padding: 15px; text-align: right;" class="no-print">
+        <a href="/" style="color: white; text-decoration: none;">Back to Dashboard</a> |
+        <button onclick="window.print()" style="margin-left: 10px; background: #2196F3; border:none; padding: 6px 12px; border-radius: 4px; color: white; cursor: pointer;">Print Document</button>
+    </div>
+
+    <div class="container">
+        <div class="card salary-box" style="max-width: 600px; margin: 0 auto; background: white;">
+            <div style="text-align: center; margin-bottom: 30px; border-bottom: 2px solid #f2f4f7; padding-bottom: 20px;">
+                <h2 style="margin: 0; color: #2196F3; font-size: 28px;">COMPANY INC.</h2>
+                <p style="color: #666; font-size: 16px; margin-top: 5px;">Salary Slip for {{ salary.month }}</p>
+            </div>
+            
+            <table style="width: 100%; margin-bottom: 30px; border: none;">
+                <tr>
+                    <td style="text-align: left; border: none; padding: 6px; font-size: 15px;"><strong>Employee ID:</strong> {{ emp.emp_id }}</td>
+                    <td style="text-align: right; border: none; padding: 6px; font-size: 15px;"><strong>Name:</strong> {{ emp.emp_name }}</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; border: none; padding: 6px; font-size: 15px;"><strong>Department ID:</strong> {{ emp.dept_id }}</td>
+                    <td style="text-align: right; border: none; padding: 6px; font-size: 15px;"><strong>City:</strong> {{ emp.city }}</td>
+                </tr>
+            </table>
+
+            <h3 style="border-bottom: 1px solid #ddd; padding-bottom: 8px; color: #333;">Earnings & Deductions</h3>
+            <div class="row"><span>Basic Salary</span><span>₹{{ salary.base }}</span></div>
+            <div class="row"><span>House Rent Allowance (20%)</span><span style="color: #4CAF50;">+ ₹{{ salary.hra }}</span></div>
+            <div class="row"><span>Dearness Allowance (10%)</span><span style="color: #4CAF50;">+ ₹{{ salary.da }}</span></div>
+            <div class="row" style="background: #f9f9f9; padding: 10px;"><strong>Gross Earnings</strong><strong>₹{{ salary.gross }}</strong></div>
+            <div class="row" style="color: #f44336;"><span>Tax Deduction (5%)</span><span>- ₹{{ salary.tax }}</span></div>
+            
+            <div class="row total-row" style="font-size: 1.3em; color: #4CAF50; background: #ebf5eb; padding: 15px; border-radius: 4px;">
+                <span>Net Payable Salary</span>
+                <span>₹{{ salary.net }}</span>
+            </div>
+            
+            <p style="text-align: center; font-size: 12px; color: #999; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+                This is a computer-generated document. No physical signature is required.
+            </p>
+        </div>
+    </div>
+    <style>
+        @media print {
+            body { background: white; }
+            .no-print { display: none !important; }
+            .container { margin: 0; width: 100%; }
+            .card { box-shadow: none; border: none; }
+        }
+    </style>
+</body>
+</html>
